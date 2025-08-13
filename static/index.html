@@ -203,7 +203,24 @@
             copy.splice(idx, 1)
             this.games = copy
           })
+      },
+      searchGames (search) {
+        return axios.get(`${this.apiURL}/search`, search)
+          .then((response) => {
+            this.games = response.data
+          })
       }
+    },
+      populateGames(game) {
+      return axios.post(`${this.apiURL}/populate`, game)
+        .then(response => {
+          console.log(response.data);
+          // Optional: refresh the game list after populate
+          // this.searchGames({ name: '', platform: '' });
+        })
+        .catch(err => {
+          console.error('Failed to populate games', err);
+        });
     },
     beforeMount () {
       axios.get(this.apiURL)
